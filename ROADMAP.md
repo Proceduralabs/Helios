@@ -1,6 +1,6 @@
 # Roadmap
 
-Last updated: 12 July 2026. Current milestone: **M0 — not started**.
+Last updated: 16 August 2026. Current milestone: **M0 — implementation landed; evidence bundle in progress** (see `evidence/m0/README.md`).
 
 This document owns delivery order and progress. [docs/PRODUCT.md](docs/PRODUCT.md) owns product scope, [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) owns intended implementation, and [docs/VALIDATION.md](docs/VALIDATION.md) owns proof.
 
@@ -36,7 +36,15 @@ Re-estimate after M0, M2, M4, and M6 using actual throughput and discoveries.
 
 ## Phase 0 — Prove the foundation
 
-### ⬜ Milestone 0 — Project skeleton and capability spike
+### 🟨 Milestone 0 — Project skeleton and capability spike
+
+> **Status note (16 August 2026):** the M0 implementation described below
+> exists and the reference-platform evidence bundle is being assembled
+> (unit tests, shader ABI tests, headless smoke, windowed smoke — all with
+> zero Vulkan validation errors on the reference device). The milestone
+> flips to ✅ only when the evidence checklist in `evidence/m0/README.md`
+> is fully green, including CI execution and platform items that the current
+> environment cannot run (marked BLOCKED there).
 
 **Goal:** produce the first reproducible executable and decide whether the proposed toolchain/platform profile is viable before engine architecture spreads.
 
@@ -65,6 +73,25 @@ Decisions closed here:
 **Proof:** a clean checkout produces a validation-clean triangle/debug UI, compute output, capability JSON, unit-test result, and swapchain-free smoke artifact on the reference platform. Experimental-platform results are labelled, not generalized.
 
 ### ⬜ Milestone 1 — Precision laboratory
+
+> **Status note (21 August 2026): M1 IN PROGRESS — first evidence bundle exists.**
+>
+> Landed and evidenced (`evidence/m1/local`, `helios --precision-lab`):
+> frame-tagged coordinate types with explicit scalar representations
+> (`helios_math` `frames.hpp`/`quat.hpp`, D-021); validated `Instant` +
+> immutable `FrameSnapshot` (builder/finalized) + synthetic static/rotating
+> frame providers with period-reduced phase computation (`helios_universe`);
+> camera reparenting with enter/exit hysteresis, velocity transform, and
+> drift-free repeated transitions; the `helios_render` scene-assembly
+> boundary (`NearRenderRecord` float32 / `DistantBodyRecord`); a
+> deterministic CPU precision route measuring ULP spacing, round-trip errors,
+> reparenting discontinuity/drift, screen-space jitter, and analytic
+> reversed-Z depth — all thresholds pass on the reference profile.
+>
+> Still open for M1 completion: GPU/render-path jitter and depth captures,
+> the low-detail sphere/impostor transition experiment, prescribed
+> micro-motion camera routes, and cross-device repetition of the precision
+> bundle. The milestone must NOT be marked complete until those pass too.
 
 **Goal:** validate frame-tagged coordinates and depth over the actual v1 spatial range before planet systems depend on them.
 
